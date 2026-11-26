@@ -9,3 +9,16 @@
 | 研究看板 | 中英文界面、数据审计、合成轨迹回放、模型指标 |
 | Codex Cloud | 环境已登记并关联 main，当前不可运行 |
 | 模型结果 | 待用户审阅研究方案 |
+
+## Cloud Recovery 断点 · 2026-11-26
+
+| 运行位置 | 已准备 | 验证情况 |
+|---|---:|---|
+| LOCAL | 3 / 9 | 已校验三份完整 CSV 的 CRC，检查字段、候选键、缺失值和球员覆盖 |
+| CLOUD | 0 / 9 | 专用环境为私有草稿，未发布，调用返回不可运行 |
+
+现有环境 `nfl-big-data-bowl-2027-research-lab` 已关联 GitHub 仓库的 `main`。原环境设置会话未确认创建成功，当前没有可恢复的云端下载任务。已确认个人保险库存在 Kaggle 凭证条目。注入与认证结果等待云端实测。
+
+仓库安装入口为 `bash scripts/setup.sh`，要求 Python 3.11 或更高版本并固定 DuckDB 1.4.4。本地用 Python 3.13.3 和 DuckDB 1.4.4 跑通两项测试。云端依赖、GitHub checkout、网络、磁盘空间与官方 Kaggle API 均待实际启动后验证。
+
+恢复时继续编辑并发布现有私有环境。启动同一项目的云端任务后，先验证 checkout、运行时和磁盘，再用官方 Kaggle CLI 列清单并单独下载 `player_career_successes.csv`，验证完整的认证和下载路径。探测成功后在同一云端任务获取九表，校验 ZIP CRC 和九个 CSV 文件名，再运行 `scripts/audit.py`。云端重入时先核对现有文件与任务进度。
