@@ -1,12 +1,13 @@
 """Run the phase-one audit against nine original competition CSVs."""
 
 import argparse
+import hashlib
 import json
 import platform
 import subprocess
+import os
 from datetime import datetime, timezone
 from pathlib import Path
-from tempfile import TemporaryDirectory
 
 import duckdb
 
@@ -184,26 +185,102 @@ def cohort_profile(db, schemas):
     return result
 
 
-def run_audit(data_dir, scratch, memory_limit="2GB", threads=2):
+def atomic_json(path, value):
+    path = Path(path)
+    path.parent.mkdir(parents=True, exist_ok=True)
+    temporary = path.with_suffix(path.suffix + ".tmp")
+    temporary.write_text(json.dumps(value, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    os.replace(temporary, path)
+
+
+def code_identity(path):
+    digest = hashlib.sha256()
+    with Path(path).open("rb") as stream:
+        for block in iter(lambda: stream.read(8 * 1024 * 1024), b""):
+            digest.update(block)
+    return digest.hexdigest()
+
+
+def run_audit(data_dir, scratch, memory_limit="2GB", threads=2, run_id=None):
+    scratch = Path(scratch)
+    scratch.mkdir(parents=True, exist_ok=True)
     paths = discover(data_dir)
+    git = subprocess.run(["git", "rev-parse", "HEAD"], capture_output=True, text=True, check=False)
+    source_dir = Path(__file__).resolve().parent
+    inputs = [{"file": path.name, **identity(path)} for path in paths.values()]
+    fingerprint = {
+        "inputs": inputs,
+        "commit": git.stdout.strip() if git.returncode == 0 else None,
+        "audit_sha256": code_identity(__file__),
+        "ingest_sha256": code_identity(source_dir / "ingest.py"),
+        "python": platform.python_version(),
+        "duckdb": duckdb.__version__,
+        "memory_limit": memory_limit,
+        "threads": threads,
+    }
+    checkpoint_path = scratch / "checkpoint.json"
+    if checkpoint_path.exists():
+        checkpoint = json.loads(checkpoint_path.read_text(encoding="utf-8"))
+        if checkpoint.get("fingerprint") != fingerprint:
+            raise ValueError("Checkpoint fingerprint mismatch; use a new run ID/directory instead of skipping prior work")
+    else:
+        checkpoint = {
+            "run_id": run_id or datetime.now(timezone.utc).strftime("g1-%Y%m%dT%H%M%S%fZ"),
+            "started_at_utc": datetime.now(timezone.utc).isoformat(),
+            "fingerprint": fingerprint,
+            "phase": "table_profiles",
+            "tables": {},
+            "relationships": {},
+            "cohorts": None,
+        }
+        atomic_json(checkpoint_path, checkpoint)
+
     with duckdb.connect(str(scratch / "audit.duckdb"), config={
         "memory_limit": memory_limit, "threads": threads, "preserve_insertion_order": False,
     }) as db:
         schemas, profiles = {}, []
         for name, path in paths.items():
-            schemas[name] = load_csv(db, name, path)
-            profiles.append({"file": path.name, **identity(path), **table_profile(db, name, schemas[name]),
-                             "key": key_profile(db, name, schemas[name])})
-        relations = [relationship(db, schemas, name, "players", (PLAYER,))
-                     for name in paths if name not in {"players", "games"}]
-        relations.extend(relationship(db, schemas, name, "games", (GAME,))
-                         for name in ("player_play", *GAMES_TRACKING))
-        relations.extend(relationship(db, schemas, name, "player_play", (GAME, PLAY, PLAYER))
-                         for name in GAMES_TRACKING)
-        cohorts = cohort_profile(db, schemas)
-    git = subprocess.run(["git", "rev-parse", "HEAD"], capture_output=True, text=True, check=False)
+            present = db.execute("SELECT count(*) FROM information_schema.tables WHERE table_name = ?", [name]).fetchone()[0]
+            cached = checkpoint["tables"].get(name)
+            if not (cached and present):
+                if present:
+                    db.execute(f"DROP TABLE {q(name)}")
+                schema = load_csv(db, name, path)
+                cached = {"schema": schema, **table_profile(db, name, schema), "key": key_profile(db, name, schema),
+                          "source_sha256": identity(path)["sha256"], "status": "complete"}
+                checkpoint["tables"][name] = cached
+                checkpoint["phase"] = "table_profiles"
+                atomic_json(checkpoint_path, checkpoint)
+            schemas[name] = [tuple(field) for field in cached["schema"]]
+            profiles.append({"file": path.name, **identity(path), "rows": cached["rows"],
+                             "unique_players": cached["unique_players"], "fields": cached["fields"],
+                             "key": cached["key"]})
+
+        relation_specs = [(name, "players", (PLAYER,)) for name in paths if name not in {"players", "games"}]
+        relation_specs += [(name, "games", (GAME,)) for name in ("player_play", *GAMES_TRACKING)]
+        relation_specs += [(name, "player_play", (GAME, PLAY, PLAYER)) for name in GAMES_TRACKING]
+        checkpoint["phase"] = "cross_table_relations"
+        relations = []
+        for child, parent, keys in relation_specs:
+            task_id = f"{child}->{parent}"
+            result = checkpoint["relationships"].get(task_id)
+            if result is None:
+                result = relationship(db, schemas, child, parent, keys)
+                checkpoint["relationships"][task_id] = result
+                atomic_json(checkpoint_path, checkpoint)
+            relations.append(result)
+        checkpoint["phase"] = "cohort_profiles"
+        cohorts = checkpoint.get("cohorts")
+        if cohorts is None:
+            cohorts = cohort_profile(db, schemas)
+            checkpoint["cohorts"] = cohorts
+            atomic_json(checkpoint_path, checkpoint)
+    checkpoint["phase"] = "audit_compute_complete"
+    checkpoint["completed_at_utc"] = datetime.now(timezone.utc).isoformat()
+    atomic_json(checkpoint_path, checkpoint)
     dirty = subprocess.run(["git", "status", "--porcelain", "--untracked-files=all"], capture_output=True, text=True)
-    return {"competition": COMPETITION, "audited_at_utc": datetime.now(timezone.utc).isoformat(),
+    return {"competition": COMPETITION, "run_id": checkpoint["run_id"],
+            "audited_at_utc": checkpoint.get("completed_at_utc", datetime.now(timezone.utc).isoformat()),
             "commit": git.stdout.strip() if git.returncode == 0 else None,
             "git_dirty": bool(dirty.stdout.strip()) if dirty.returncode == 0 else None,
             "python": platform.python_version(), "duckdb": duckdb.__version__, "null_markers": list(NULL_MARKERS),
@@ -211,8 +288,12 @@ def run_audit(data_dir, scratch, memory_limit="2GB", threads=2):
 
 
 def write_reports(report, output):
-    output.mkdir(parents=True, exist_ok=False)
-    (output / "audit.json").write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    output.mkdir(parents=True, exist_ok=True)
+    def write_text_atomic(path, content):
+        temporary = path.with_suffix(path.suffix + ".tmp")
+        temporary.write_text(content, encoding="utf-8")
+        os.replace(temporary, path)
+    write_text_atomic(output / "audit.json", json.dumps(report, ensure_ascii=False, indent=2) + "\n")
     lines = ["# NFL Big Data Bowl 2027 数据审计", "", f"- UTC 时间 `{report['audited_at_utc']}`",
              f"- Git `{report['commit'] or 'unavailable'}`，存在未提交修改 `{report['git_dirty']}`",
              f"- Python `{report['python']}`，DuckDB `{report['duckdb']}`", "", "## 文件与球员覆盖", "",
@@ -230,7 +311,7 @@ def write_reports(report, output):
                   if rel['status'] == 'checked' else "候选字段待确认")
         lines.append(f"- `{rel['child']}` → `{rel['parent']}`。{detail}。")
     lines += ["", "## 字段和缺失值", "", "详见 [字段表](data_dictionary.md)。`audit.json` 包含文件指纹、关联覆盖、位置与选秀年、Combine 重复测量和分赛季比赛追踪覆盖。"]
-    (output / "data_audit.md").write_text("\n".join(lines) + "\n", encoding="utf-8")
+    write_text_atomic(output / "data_audit.md", "\n".join(lines) + "\n")
     dictionary = ["# 字段表", "", "类型为 DuckDB 对完整 CSV 的推断。缺失包含空值与纯空格。"]
     for record in report["files"]:
         dictionary += ["", f"## {record['file']}", "", f"SHA-256 `{record['sha256']}`", "",
@@ -239,29 +320,34 @@ def write_reports(report, output):
             name = col["name"].replace("|", "\\|")
             rate = f"{col['missing_pct']:.4f}%" if col['missing_pct'] is not None else "—"
             dictionary.append(f"| `{name}` | `{col['type']}` | {col['null']:,} | {col['whitespace_only']:,} | {rate} |")
-    (output / "data_dictionary.md").write_text("\n".join(dictionary) + "\n", encoding="utf-8")
+    write_text_atomic(output / "data_dictionary.md", "\n".join(dictionary) + "\n")
 
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--data-dir", type=Path, default=Path("data/raw"))
     parser.add_argument("--output", type=Path)
-    parser.add_argument("--scratch-dir", type=Path, default=Path("data"))
+    parser.add_argument("--scratch-dir", type=Path, default=Path("data/audit_runs"))
+    parser.add_argument("--run-id", default=datetime.now(timezone.utc).strftime("g1-%Y%m%dT%H%M%S%fZ"))
     parser.add_argument("--memory-limit", default="2GB")
     parser.add_argument("--threads", type=int, default=2)
     args = parser.parse_args()
     if args.threads < 1:
         parser.error("--threads must be a positive number")
-    output = args.output or Path("reports/runs") / datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%S%fZ")
-    if output.exists():
-        parser.error(f"Output already exists: {output}")
-    args.scratch_dir.mkdir(parents=True, exist_ok=True)
-    with TemporaryDirectory(prefix="audit-", dir=args.scratch_dir) as scratch:
-        try:
-            report = run_audit(args.data_dir, Path(scratch), args.memory_limit, args.threads)
-        except ValueError as error:
-            parser.error(str(error))
+    output = args.output or Path("reports/runs") / args.run_id
+    run_dir = args.scratch_dir / args.run_id
+    run_dir.mkdir(parents=True, exist_ok=True)
+    try:
+        report = run_audit(args.data_dir, run_dir, args.memory_limit, args.threads, args.run_id)
+    except ValueError as error:
+        parser.error(str(error))
     write_reports(report, output)
+    checkpoint = json.loads((run_dir / "checkpoint.json").read_text(encoding="utf-8"))
+    checkpoint["phase"] = "reports_complete"
+    checkpoint["report_directory"] = str(output)
+    checkpoint["report_files"] = {name: identity(output / name) for name in
+                                  ("audit.json", "data_audit.md", "data_dictionary.md")}
+    atomic_json(run_dir / "checkpoint.json", checkpoint)
     print(output / "data_audit.md")
 
 
