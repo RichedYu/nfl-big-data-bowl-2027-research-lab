@@ -1,7 +1,7 @@
 {
   "goal_id": "NFL Big Data Bowl 2027 G1",
   "phase": "data preparation, audit, and feasibility review complete; publication pending review",
-  "last_updated_utc": "2026-11-26T09:46:08.753502+00:00",
+  "last_updated_utc": "2026-11-26T09:49:24.960528+00:00",
   "execution_environment": "selected private Codex Cloud task",
   "branch": "g1-resumable-audit",
   "base_commit": "fcf40905d50539db334900ac641d9f974e51b1b9",
@@ -46,11 +46,12 @@
   "user_action_required": "Scientific review before study selection; publication approval before dashboard update.",
   "links": {
     "pull_request": "https://github.com/RichedYu/nfl-big-data-bowl-2027-research-lab/pull/1",
-    "actions": null,
+    "actions": "https://github.com/RichedYu/nfl-big-data-bowl-2027-research-lab/actions/runs/45795340528",
     "dashboard": "https://richedyu.github.io/nfl-big-data-bowl-2027-research-lab/",
     "dashboard_status": "unchanged; review pending",
-    "actions_status": "not yet checked"
+    "actions_status": "Research checks run 6 succeeded on the previously observed branch head; this status update will trigger another run"
   },
-  "github_sync_status": "draft pull request open; not merged",
-  "commit": "7b822ee2d4e5522ee6d81178a3eb4f39afbc0b65"
+  "github_sync_status": "draft PR open and mergeable; not merged",
+  "commit": "7b822ee2d4e5522ee6d81178a3eb4f39afbc0b65",
+  "pr_head_commit_before_status_update": "6a29226ad893ae799390048991509d49bbb7f6cf"
 }

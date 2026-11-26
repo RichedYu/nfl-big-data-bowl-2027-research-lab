@@ -17,7 +17,7 @@
 | Current blocker | None for G1 data acquisition or audit. Candidate outcome horizons and position grouping require scientific review. |
 | Next executable action | Review the private A/B/C feasibility matrix and settle a pre-registered outcome horizon before any model work. |
 | User action required | Scientific review before selecting a direction; separate approval before dashboard publication. |
-| PR / Actions / Dashboard | [Draft PR #1](https://github.com/RichedYu/nfl-big-data-bowl-2027-research-lab/pull/1); Actions not yet checked; dashboard unchanged and awaiting review. |
+| PR / Actions / Dashboard | [Draft PR #1](https://github.com/RichedYu/nfl-big-data-bowl-2027-research-lab/pull/1); [Research checks run 6 succeeded](https://github.com/RichedYu/nfl-big-data-bowl-2027-research-lab/actions/runs/45795340528); this status update triggers a follow-up run; dashboard unchanged. |
 
 The official Kaggle API file listing succeeded. The first object-storage download was rejected because the restricted environment allowed the Kaggle API host but not its verified object-storage host. The cloud egress policy was updated to add `storage.googleapis.com` while retaining the Kaggle API and package-manager access. All nine files then passed size checks and strict DuckDB parsing.
 
