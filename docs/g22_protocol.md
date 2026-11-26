@@ -1,0 +1,11 @@
+# G2.2 measurement and representation experiments
+
+The synthetic design varies turn angle, entry speed, turn duration and speed loss independently. It uses a trapezoidal reference at 1 kHz with a 2 kHz convergence check, 5 and 10 Hz acquisition with two phases, and simulated iid or autocorrelated coordinate noise. The development analysis uses four prespecified drills in the 2023 cohort. Later cohorts are queried for availability and structure only.
+
+Three estimators compare maximum local heading change, a sustained same-direction heading-rate excursion and the angle between stable motion segments on either side of such an excursion. The original G2.1 detector supplies a legacy reference. The oracle interval experiment separates sampling and differentiation, position filtering and subsequent phase detection. Comparisons across the three estimators can also differ in angle definition. The controlled noise comparison freezes the interval for one analysis and redetects intervals for the other.
+
+Repeatability uses the original 31 paired DB attempts and player bootstrap uncertainty. The private evidence records usable denominators, missing estimates and right censoring. Figures represent automatically proposed movement phases for human review.
+
+The information laboratory uses XOR and enumerated binary latent states. It checks exact entropy, conditional information, conditional divergence and Monte Carlo test log loss. The opportunity screen compares rookie and second-year regular season. The first tier requires a route and separation value on the same player-play row. The second tier also requires a tracking key and a time-supported game event window. It reports sample coverage and expects a separate validation of route cut timing.
+
+The private run under the ignored `data/g2/` directory stores the frozen protocol, artifact hashes and the G1/G2.1 fingerprints. Run `scripts/g22_run.py RUN_DIR STAGE` with the repository virtual environment and the registered run directory. Stage order is `synthetic`, `real`, `report`, `information`, `outcomes`. For plotting set `MPLCONFIGDIR` to a writable path in the workspace. NumPy and Matplotlib are the optional scientific dependencies documented for G2.1. See the test log for the suite used with those dependencies. The full evidence, detailed results and plots stay in the authorized Cloud task.

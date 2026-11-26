@@ -22,3 +22,9 @@
 The official Kaggle API file listing succeeded. The first object-storage download was rejected because the restricted environment allowed the Kaggle API host but not its verified object-storage host. The cloud egress policy was updated to add `storage.googleapis.com` while retaining the Kaggle API and package-manager access. All nine files then passed size checks and strict DuckDB parsing.
 
 Full raw data, SHA-256 values, field-level missingness, and detailed join results are excluded from this public status page and remain in the private task workspace.
+
+## G2.2 measurement and representation probe
+
+The private Cloud evidence package is ready for scientific review. The run reused G1 and G2.1 and evaluated synthetic truth, development-only movement segmentation, repeatability, a finite-state information laboratory, and outcome-field availability. The 2023 draft cohort supplied the real motion trials. Availability checks for later cohorts used structural criteria and field eligibility counts.
+
+Scientific review is pending for phase landmarks, feature reliability and the fixed outcome horizon. The stacked G2.2 change contains only methods, tests, code and this status update.
