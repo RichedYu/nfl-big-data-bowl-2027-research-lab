@@ -1,0 +1,14 @@
+{
+  "status": "pending",
+  "files": [
+    {"file": "players.csv"},
+    {"file": "combine_results.csv"},
+    {"file": "player_career_successes.csv"},
+    {"file": "games.csv"},
+    {"file": "combine_tracking.csv"},
+    {"file": "player_play.csv"},
+    {"file": "game_tracking_2023.csv"},
+    {"file": "game_tracking_2024.csv"},
+    {"file": "game_tracking_2025.csv"}
+  ]
+}

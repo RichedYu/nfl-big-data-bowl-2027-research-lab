@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="NFL Big Data Bowl 2027 的数据质量与实验结果。">
+  <title>NFL Big Data Bowl 2027 · 研究看板</title>
+  <link rel="stylesheet" href="./styles.css">
+  <script defer src="./app.js"></script>
+</head>
+<body>
+  <header class="masthead">
+    <div class="wrap masthead-inner">
+      <a class="brand" href="#top">NFL BDB <span>2027</span></a>
+      <nav aria-label="看板导航">
+        <a href="#inventory">数据审计</a>
+        <a href="#experiments">模型实验</a>
+        <a href="https://github.com/RichedYu/nfl-big-data-bowl-2027-research-lab">GitHub</a>
+      </nav>
+    </div>
+  </header>
+  <main id="top">
+    <section class="hero" aria-labelledby="title">
+      <div class="wrap hero-inner">
+        <div>
+          <p class="eyebrow">NFL Big Data Bowl 2027</p>
+          <h1 id="title">从联合试训<br>到 NFL 赛场</h1>
+          <p class="lede">传统体测之外，运动轨迹还能提供多少关于球员赛场表现的信息？</p>
+          <a class="competition" href="https://www.kaggle.com/competitions/nfl-big-data-bowl-2027">查看 Kaggle 竞赛</a>
+        </div>
+        <aside class="snapshot" aria-label="数据审计概览">
+          <p class="status" id="audit-status" role="status">正在读取审计状态</p>
+          <dl>
+            <div><dt>文件已审计</dt><dd id="audited-count">—</dd></div>
+            <div><dt>球员表唯一球员</dt><dd id="player-count">—</dd></div>
+            <div><dt>累计记录行</dt><dd id="row-count">—</dd></div>
+          </dl>
+        </aside>
+      </div>
+    </section>
+
+    <div class="wrap content">
+      <section id="inventory" aria-labelledby="inventory-title">
+        <div class="section-heading">
+          <h2 id="inventory-title">数据审计</h2>
+          <p id="audit-date"></p>
+        </div>
+        <div class="table-scroll" tabindex="0" aria-label="文件审计清单">
+          <table>
+            <thead><tr><th scope="col">文件</th><th scope="col">行数</th><th scope="col">字段数</th><th scope="col">唯一球员</th></tr></thead>
+            <tbody id="inventory-body"></tbody>
+          </table>
+        </div>
+        <section class="detail" id="audit-detail" hidden aria-labelledby="detail-title">
+          <div class="section-heading">
+            <h3 id="detail-title">字段缺失率</h3>
+            <label>文件 <select id="file-select"></select></label>
+          </div>
+          <p class="quiet" id="fields-empty" hidden>暂无此文件的字段统计。</p>
+          <div class="bars" id="missing-chart"></div>
+        </section>
+      </section>
+
+      <section id="experiments" aria-labelledby="experiments-title">
+        <div class="section-heading"><h2 id="experiments-title">模型实验</h2></div>
+        <p class="empty" id="experiments-status" role="status">正在读取实验结果。</p>
+        <div id="experiments-content" hidden>
+          <label>对比指标 <select id="metric-select"></select></label>
+          <div class="bars model-bars" id="metrics-chart"></div>
+          <div class="table-scroll" tabindex="0" aria-label="模型实验结果">
+            <table>
+              <thead><tr><th scope="col">实验</th><th scope="col">模型</th><th scope="col">验证口径</th><th scope="col">样本球员</th><th scope="col">指标值</th></tr></thead>
+              <tbody id="experiments-body"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+  <footer class="wrap footer">NFL Big Data Bowl 2027 · 信息论研究实践</footer>
+</body>
+</html>
