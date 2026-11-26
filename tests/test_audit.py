@@ -59,6 +59,13 @@ class DataAuditTest(unittest.TestCase):
         wr = next(group for group in report["cohorts"]["combine_coverage"] if group["position"] == "WR")
         self.assertEqual((wr["attempts"], wr["players_with_repeats"], wr["median_frames"]), (2, 1, 1.5))
         self.assertEqual(report["cohorts"]["combine_year_field"], "draft_year")
+        resumed = run_audit(self.data, self.root, "256MB", 1)
+        self.assertEqual(resumed["run_id"], report["run_id"])
+        self.assertEqual(resumed["files"], report["files"])
+        checkpoint = json.loads((self.root / "checkpoint.json").read_text())
+        self.assertEqual(checkpoint["phase"], "audit_compute_complete")
+        self.assertEqual(len(checkpoint["tables"]), 9)
+        self.assertEqual(len(checkpoint["relationships"]), 14)
         output = self.root / "reports"
         write_reports(report, output)
         self.assertEqual(json.loads((output / "audit.json").read_text()), report)
@@ -74,3 +81,10 @@ class DataAuditTest(unittest.TestCase):
         (self.data / "other" / "players.csv").touch()
         with self.assertRaisesRegex(ValueError, "players.csv: expected one file.*found 2"):
             discover(self.data)
+
+    def test_checkpoint_rejects_changed_input(self):
+        run_audit(self.data, self.root, "256MB", 1)
+        players = self.data / "players.csv"
+        players.write_text(players.read_text() + "4,WR,2025,D\n", encoding="utf-8")
+        with self.assertRaisesRegex(ValueError, "fingerprint mismatch"):
+            run_audit(self.data, self.root, "256MB", 1)

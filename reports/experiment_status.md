@@ -1,24 +1,24 @@
-# 实验状态
+# Experiment Status — G1 Cloud Data Audit
 
-当前阶段为环境初始化与九表审计。Kaggle 已加入比赛，原始 ZIP 下载中断。从部分 ZIP 中恢复并校验了三个完整 CSV，已检查各自的字段、缺失值、候选键和球员覆盖。全量关联核验待完成，模型实验尚未启动。
+**Phase:** G1 data preparation and audit complete in the selected private Codex Cloud task. Scientific review and publication remain pending. No model has been fitted.
 
-| 项目 | 当前交付 |
+| Item | Status |
 |---|---|
-| 数据审计 | 三个 CSV 的逐表核验，九表脚本与合成数据测试 |
-| 数据入口 | 官方 Kaggle CLI 或 Kaggle Notebook 挂载目录 |
-| 研究看板 | 中英文界面、数据审计、合成轨迹回放、模型指标 |
-| Codex Cloud | 私有环境已发布并关联 main，任务启动待验证 |
-| 模型结果 | 待用户审阅研究方案 |
+| Goal / phase | NFL Big Data Bowl 2027 G1 — resumable cloud data audit |
+| Last updated | 2026-11-26T09:40:24.066127+00:00 |
+| Execution environment | Selected private Codex Cloud task; raw data and full reports remain in its ignored `data/` workspace |
+| Branch / commit / run | `g1-resumable-audit` / `7b822ee2d4e5522ee6d81178a3eb4f39afbc0b65` / `g1-cloud-final-20261126T0942Z` |
+| Main commit observed | `528c0ef28943015c0a7086417c5caedd9fa6d3e1` |
+| LOCAL verified files | Not checked in this task |
+| CLOUD verified files | 9/9 official CSVs; per-file byte counts, strict-parse result, and SHA-256 are in the private checkpoint |
+| Completed audit steps | Nine-table profiles, keys, relationships, cohort coverage, and sampled 10 Hz intervals |
+| Tests | `setup.sh`: 2 passed; resumable-audit suite: 3 passed |
+| Evidence | Private `data/checkpoints/download_verification.json`, `data/audit_runs/g1-cloud-final-20261126T0942Z/checkpoint.json`, and `data/checkpoints/audit/g1-cloud-final-20261126T0942Z/report/` |
+| Current blocker | None for G1 data acquisition or audit. Candidate outcome horizons and position grouping require scientific review. |
+| Next executable action | Review the private A/B/C feasibility matrix and settle a pre-registered outcome horizon before any model work. |
+| User action required | Scientific review before selecting a direction; separate approval before dashboard publication. |
+| PR / Actions / Dashboard | [Draft PR #1](https://github.com/RichedYu/nfl-big-data-bowl-2027-research-lab/pull/1); [Research checks run 6 succeeded](https://github.com/RichedYu/nfl-big-data-bowl-2027-research-lab/actions/runs/45795340528); this status update triggers a follow-up run; dashboard unchanged. |
 
-## Cloud Recovery 断点 · 2026-11-26
+The official Kaggle API file listing succeeded. The first object-storage download was rejected because the restricted environment allowed the Kaggle API host but not its verified object-storage host. The cloud egress policy was updated to add `storage.googleapis.com` while retaining the Kaggle API and package-manager access. All nine files then passed size checks and strict DuckDB parsing.
 
-| 运行位置 | 已准备 | 验证情况 |
-|---|---:|---|
-| LOCAL | 3 / 9 | 已校验三份完整 CSV 的 CRC，检查字段、候选键、缺失值和球员覆盖 |
-| CLOUD | 0 / 9 | 现有私有环境已发布且可选，正式云端任务尚未启动 |
-
-现有环境 `nfl-big-data-bowl-2027-research-lab` 已关联 GitHub 仓库的 `main`。现有环境设置会话已确认发布。CLI 在当前工作区找不到可用环境，网页已显示该环境可运行。当前没有已启动的云端下载任务。已确认个人保险库存在 Kaggle 凭证条目。环境仍需确认个人变量引用和受限公网域名。
-
-仓库安装入口为 `bash scripts/setup.sh`，要求 Python 3.11 或更高版本并固定 DuckDB 1.4.4。本地用 Python 3.13.3 和 DuckDB 1.4.4 跑通两项测试。云端依赖、GitHub checkout、网络、磁盘空间与官方 Kaggle API 均待实际启动后验证。
-
-恢复时保存同一私有环境的配置，重新发布并从网页任务入口选择该环境。启动同一项目的云端任务后，先验证 checkout、运行时和磁盘，再用官方 Kaggle CLI 列清单并单独下载 `player_career_successes.csv`，验证完整的认证和下载路径。探测成功后在同一云端任务获取九表，校验 ZIP CRC 和九个 CSV 文件名，再运行 `scripts/audit.py`。云端重入时先核对现有文件与任务进度。
+Full raw data, SHA-256 values, field-level missingness, and detailed join results are excluded from this public status page and remain in the private task workspace.

@@ -19,10 +19,12 @@ bash scripts/setup.sh
 mkdir -p data/raw
 .venv/bin/kaggle competitions download nfl-big-data-bowl-2027 -p data/raw
 unzip -n data/raw/nfl-big-data-bowl-2027.zip -d data/raw
-.venv/bin/python scripts/audit.py --data-dir data/raw
+.venv/bin/python scripts/audit.py --data-dir data/raw --run-id g1-2026-11-26
 ```
 
-审计程序需要九个官方 CSV。每次运行单独保存带时间戳的 `audit.json`、`data_audit.md` 和 `data_dictionary.md`。内存上限默认 2 GB，DuckDB 将中间表写入 `data/` 下临时目录。可用 `--memory-limit`、`--threads` 和 `--scratch-dir` 调整资源。
+`audit.py` 会将 DuckDB、逐表画像、逐条关联和 cohort 检查点保存到 `data/audit_runs/<run-id>`。恢复时使用相同的 `--run-id`、数据和计算参数；脚本会校验数据 SHA-256、代码版本和运行配置，只跳过完全匹配的已完成阶段。输出报告按相同 Run ID 写入 `reports/runs/<run-id>`，该目录已忽略。可用 `--output` 更改报告位置。
+
+审计程序需要九个官方 CSV。每次运行单独保存 `audit.json`、`data_audit.md` 和 `data_dictionary.md`。内存上限默认 2 GB，DuckDB 中间表保存在对应 Run ID 目录中，以支持恢复。可用 `--memory-limit`、`--threads` 和 `--scratch-dir` 调整资源。
 
 - [审计方法](reports/data_audit.md)和[字段与关联口径](docs/data_dictionary.md)
 - [Codex Cloud 配置](docs/cloud.md)和[当前研究问题](docs/research_question.md)

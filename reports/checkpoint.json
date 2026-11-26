@@ -1,0 +1,57 @@
+{
+  "goal_id": "NFL Big Data Bowl 2027 G1",
+  "phase": "data preparation, audit, and feasibility review complete; publication pending review",
+  "last_updated_utc": "2026-11-26T09:49:24.960528+00:00",
+  "execution_environment": "selected private Codex Cloud task",
+  "branch": "g1-resumable-audit",
+  "base_commit": "fcf40905d50539db334900ac641d9f974e51b1b9",
+  "main_commit_observed": "528c0ef28943015c0a7086417c5caedd9fa6d3e1",
+  "run_id": "g1-cloud-final-20261126T0942Z",
+  "local_verified_files": "not checked",
+  "cloud_verified_files": [
+    "players.csv",
+    "combine_results.csv",
+    "player_career_successes.csv",
+    "games.csv",
+    "combine_tracking.csv",
+    "player_play.csv",
+    "game_tracking_2023.csv",
+    "game_tracking_2024.csv",
+    "game_tracking_2025.csv"
+  ],
+  "completed_audit_steps": [
+    "official Kaggle competition file inventory",
+    "nine per-file size, SHA-256, and strict DuckDB parse checks",
+    "nine-table row, field, type, and missingness audit",
+    "candidate key and duplicate checks",
+    "cross-table player, game, and player-play relationship checks",
+    "position, draft-cohort, Combine-attempt, and game-coverage profiles",
+    "sampled 100 ms tracking interval checks",
+    "private A/B/C research feasibility matrix",
+    "resumable audit checkpoint implementation and validation"
+  ],
+  "tests": {
+    "setup_sh": "2 passed",
+    "resumable_audit_suite": "3 passed"
+  },
+  "evidence": {
+    "private_file_manifest": "data/checkpoints/download_verification.json",
+    "private_audit_checkpoint": "data/audit_runs/g1-cloud-final-20261126T0942Z/checkpoint.json",
+    "private_audit_report": "data/checkpoints/audit/g1-cloud-final-20261126T0942Z/report/",
+    "private_feasibility_matrix": "data/checkpoints/feasibility_matrix.md",
+    "public_summary_draft_pending_review": "data/checkpoints/public_audit_summary_draft.md"
+  },
+  "current_blocker": null,
+  "next_executable_action": "Review the candidate study direction, fixed-horizon outcome, and publication-safe summary before model work or dashboard changes.",
+  "user_action_required": "Scientific review before study selection; publication approval before dashboard update.",
+  "links": {
+    "pull_request": "https://github.com/RichedYu/nfl-big-data-bowl-2027-research-lab/pull/1",
+    "actions": "https://github.com/RichedYu/nfl-big-data-bowl-2027-research-lab/actions/runs/45795340528",
+    "dashboard": "https://richedyu.github.io/nfl-big-data-bowl-2027-research-lab/",
+    "dashboard_status": "unchanged; review pending",
+    "actions_status": "Research checks run 6 succeeded on the previously observed branch head; this status update will trigger another run"
+  },
+  "github_sync_status": "draft PR open and mergeable; not merged",
+  "commit": "7b822ee2d4e5522ee6d81178a3eb4f39afbc0b65",
+  "pr_head_commit_before_status_update": "6a29226ad893ae799390048991509d49bbb7f6cf"
+}
