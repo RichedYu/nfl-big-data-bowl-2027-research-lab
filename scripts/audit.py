@@ -19,7 +19,7 @@ GAME = ("game_id", "gameId")
 PLAY = ("play_id", "playId")
 TIME = ("time", "timestamp", "frame_id", "frameId")
 EVENT = ("event_id", "eventId")
-POSITION = ("position", "position_abbr", "position_group", "official_position")
+POSITION = ("nfl_position", "position", "position_abbr", "position_group", "official_position")
 DRAFT = ("draft_year", "entry_year", "draft_class")
 DRILL = ("drill_name", "drill_type")
 KEYS = {
@@ -141,7 +141,7 @@ def cohort_profile(db, schemas):
     combine = schemas["combine_tracking"]
     track_id, event, drill, time = (resolve(combine, *field) for field in (PLAYER, EVENT, DRILL, TIME))
     if track_id and event and drill:
-        tracked_year = resolve(combine, "combine_year", "year", "season")
+        tracked_year = resolve(combine, "combine_year", "draft_year", "year", "season")
         year_expr = f"min(cast(t.{q(tracked_year)} AS VARCHAR))" if tracked_year else "max(r.draft_year)"
         time_count = f"count(DISTINCT t.{q(time)})" if time else "NULL::BIGINT"
         entity = resolve(combine, "entity_type")

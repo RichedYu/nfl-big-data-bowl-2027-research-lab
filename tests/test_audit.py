@@ -19,12 +19,12 @@ class DataAuditTest(unittest.TestCase):
         self.data = self.root / "competition"
         self.data.mkdir()
         files = {
-            "players": "nfl_id,position,draft_year,name\n1,WR,2023,A\n2,DB,2024,B\n2,DB,2024,B\n3,TE,2025,C\n",
+            "players": "nfl_id,nfl_position,draft_year,name\n1,WR,2023,A\n2,DB,2024,B\n2,DB,2024,B\n3,TE,2025,C\n",
             "combine_results": "nflId,forty_yard_dash,note\n1,4.5,ok\n2,NA,   \n4,4.9,\n",
             "player_career_successes": "nfl_id,games_played\n1,0\n2,4\n3,1\n",
             "games": "game_id,season\n10,2023\n11,2024\n12,2025\n",
             "combine_tracking": (
-                "event_id,nfl_id,entity_type,drill_name,year,time,x\n"
+                "event_id,nfl_id,entity_type,drill_name,draft_year,time,x\n"
                 "100,1,PLAYER,turn,2023,2023-01-01T00:00:00,1\n"
                 "100,1,PLAYER,turn,2023,2023-01-01T00:00:00.1,2\n"
                 "100,,BALL,turn,2023,2023-01-01T00:00:00.1,4\n"
@@ -58,6 +58,7 @@ class DataAuditTest(unittest.TestCase):
         self.assertEqual(relation["parent_keys"], 2)
         wr = next(group for group in report["cohorts"]["combine_coverage"] if group["position"] == "WR")
         self.assertEqual((wr["attempts"], wr["players_with_repeats"], wr["median_frames"]), (2, 1, 1.5))
+        self.assertEqual(report["cohorts"]["combine_year_field"], "draft_year")
         output = self.root / "reports"
         write_reports(report, output)
         self.assertEqual(json.loads((output / "audit.json").read_text()), report)
