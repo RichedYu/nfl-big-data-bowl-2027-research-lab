@@ -12,10 +12,12 @@
   <header class="masthead">
     <div class="wrap masthead-inner">
       <a class="brand" href="#top">NFL BDB <span>2027</span></a>
-      <nav aria-label="看板导航">
-        <a href="#inventory">数据审计</a>
-        <a href="#experiments">模型实验</a>
+      <nav aria-label="看板导航" data-aria-en="Dashboard navigation">
+        <a href="#inventory" data-en="Data audit">数据审计</a>
+        <a href="#movement" data-en="Movement visualization">运动可视化</a>
+        <a href="#experiments" data-en="Experiments">模型实验</a>
         <a href="https://github.com/RichedYu/nfl-big-data-bowl-2027-research-lab">GitHub</a>
+        <a id="language" href="?lang=en" lang="en">English</a>
       </nav>
     </div>
   </header>
@@ -24,16 +26,16 @@
       <div class="wrap hero-inner">
         <div>
           <p class="eyebrow">NFL Big Data Bowl 2027</p>
-          <h1 id="title">从联合试训<br>到 NFL 赛场</h1>
-          <p class="lede">传统体测之外，运动轨迹还能提供多少关于球员赛场表现的信息？</p>
-          <a class="competition" href="https://www.kaggle.com/competitions/nfl-big-data-bowl-2027">查看 Kaggle 竞赛</a>
+          <h1 id="title"><span data-en="From the Combine">从联合试训</span><br><span data-en="to the NFL">到 NFL 赛场</span></h1>
+          <p class="lede" data-en="How much can player tracking tell us about NFL performance beyond standard athletic tests?">传统体测之外，运动轨迹还能提供多少关于球员赛场表现的信息？</p>
+          <a class="competition" href="https://www.kaggle.com/competitions/nfl-big-data-bowl-2027" data-en="View Kaggle competition">查看 Kaggle 竞赛</a>
         </div>
-        <aside class="snapshot" aria-label="数据审计概览">
-          <p class="status" id="audit-status" role="status">正在读取审计状态</p>
+        <aside class="snapshot" aria-label="数据审计概览" data-aria-en="Audit overview">
+          <p class="status" id="audit-status" role="status" data-en="Loading audit status">正在读取审计状态</p>
           <dl>
-            <div><dt>文件已审计</dt><dd id="audited-count">—</dd></div>
-            <div><dt>球员表唯一球员</dt><dd id="player-count">—</dd></div>
-            <div><dt>累计记录行</dt><dd id="row-count">—</dd></div>
+            <div><dt data-en="Files audited">文件已审计</dt><dd id="audited-count">—</dd></div>
+            <div><dt data-en="Unique players in roster">球员表唯一球员</dt><dd id="player-count">—</dd></div>
+            <div><dt data-en="Total records">累计记录行</dt><dd id="row-count">—</dd></div>
           </dl>
         </aside>
       </div>
@@ -42,34 +44,60 @@
     <div class="wrap content">
       <section id="inventory" aria-labelledby="inventory-title">
         <div class="section-heading">
-          <h2 id="inventory-title">数据审计</h2>
+          <h2 id="inventory-title" data-en="Data audit">数据审计</h2>
           <p id="audit-date"></p>
         </div>
-        <div class="table-scroll" tabindex="0" aria-label="文件审计清单">
+        <div class="table-scroll" tabindex="0" aria-label="文件审计清单" data-aria-en="File inventory">
           <table>
-            <thead><tr><th scope="col">文件</th><th scope="col">行数</th><th scope="col">字段数</th><th scope="col">唯一球员</th></tr></thead>
+            <thead><tr><th scope="col" data-en="File">文件</th><th scope="col" data-en="Rows">行数</th><th scope="col" data-en="Fields">字段数</th><th scope="col" data-en="Unique players">唯一球员</th></tr></thead>
             <tbody id="inventory-body"></tbody>
           </table>
         </div>
         <section class="detail" id="audit-detail" hidden aria-labelledby="detail-title">
           <div class="section-heading">
-            <h3 id="detail-title">字段缺失率</h3>
-            <label>文件 <select id="file-select"></select></label>
+            <h3 id="detail-title" data-en="Missing values by field">字段缺失率</h3>
+            <label><span data-en="File">文件</span> <select id="file-select"></select></label>
           </div>
-          <p class="quiet" id="fields-empty" hidden>暂无此文件的字段统计。</p>
+          <p class="quiet" id="fields-empty" hidden data-en="No field statistics are available for this file.">暂无此文件的字段统计。</p>
           <div class="bars" id="missing-chart"></div>
         </section>
       </section>
 
+      <section id="movement" aria-labelledby="movement-title">
+        <div class="section-heading"><h2 id="movement-title" data-en="Movement visualization">运动可视化</h2></div>
+        <div class="movement-grid">
+          <div class="movement-preview">
+            <h3 data-en="Trajectory playback">轨迹回放</h3>
+            <p class="quiet" data-en="Synthetic example · Position and direction of travel">合成示例 · 位置与运动方向</p>
+            <canvas id="trajectory" width="720" height="350" role="img" aria-label="合成轨迹示例" data-aria-en="Synthetic field trajectory"></canvas>
+            <div class="movement-controls">
+              <label><span data-en="Time">时间</span> <input type="range" id="frame" min="0" max="50" value="26"></label>
+              <output id="elapsed" for="frame"></output>
+              <label><span data-en="View">视角</span> <select id="projection"><option value="top" data-en="Overhead">俯视</option><option value="perspective" data-en="Oblique">斜视</option></select></label>
+            </div>
+          </div>
+          <div class="movement-notes">
+            <article>
+              <h3 data-en="On-field trajectories">场上运动轨迹</h3>
+              <p data-en="Replay field position, time, speed and direction of travel. Future filters can use drill attempts and season coverage.">用 x、y、时间、速度和运动方向做球场回放，随后可把试次和分赛季覆盖接入筛选。</p>
+            </article>
+            <article>
+              <h3 data-en="3D human pose">三维人体姿态</h3>
+              <p data-en="SMPL is a parametric human body model. Joint tracks or calibrated footage would support pose reconstruction. Current tracking fields describe motion on the field plane.">SMPL 是参数化人体模型。若取得可用的关节轨迹或已校准影像，可研究人体姿态重建。当前轨迹字段只支持球场平面上的运动。</p>
+              <a href="https://is.mpg.de/en/publications/smpl-2015" data-en="Original SMPL paper">SMPL 原始论文</a>
+            </article>
+          </div>
+        </div>
+      </section>
       <section id="experiments" aria-labelledby="experiments-title">
-        <div class="section-heading"><h2 id="experiments-title">模型实验</h2></div>
-        <p class="empty" id="experiments-status" role="status">正在读取实验结果。</p>
+        <div class="section-heading"><h2 id="experiments-title" data-en="Experiments">模型实验</h2></div>
+        <p class="empty" id="experiments-status" role="status" data-en="Loading experiment results.">正在读取实验结果。</p>
         <div id="experiments-content" hidden>
-          <label>对比指标 <select id="metric-select"></select></label>
+          <label><span data-en="Metric">对比指标</span> <select id="metric-select"></select></label>
           <div class="bars model-bars" id="metrics-chart"></div>
-          <div class="table-scroll" tabindex="0" aria-label="模型实验结果">
+          <div class="table-scroll" tabindex="0" aria-label="模型实验结果" data-aria-en="Model experiment results">
             <table>
-              <thead><tr><th scope="col">实验</th><th scope="col">模型</th><th scope="col">验证口径</th><th scope="col">样本球员</th><th scope="col">指标值</th></tr></thead>
+              <thead><tr><th scope="col" data-en="Run">实验</th><th scope="col" data-en="Model">模型</th><th scope="col" data-en="Validation split">验证口径</th><th scope="col" data-en="Players in sample">样本球员</th><th scope="col" data-en="Metric value">指标值</th></tr></thead>
               <tbody id="experiments-body"></tbody>
             </table>
           </div>
@@ -77,6 +105,6 @@
       </section>
     </div>
   </main>
-  <footer class="wrap footer">NFL Big Data Bowl 2027 · 信息论研究实践</footer>
+  <footer class="wrap footer" data-en="NFL Big Data Bowl 2027 · Information theory research">NFL Big Data Bowl 2027 · 信息论研究实践</footer>
 </body>
 </html>

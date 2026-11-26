@@ -70,10 +70,22 @@ progress::-webkit-progress-value { background: var(--accent); border-radius: 10p
 progress::-moz-progress-bar { background: var(--accent); border-radius: 10px; }
 .model-bars { margin: 1rem 0; }
 .footer { color: var(--muted); border-top: 1px solid var(--line); padding-block: 1.4rem 2.2rem; }
+#language { color: var(--accent); }
+.movement-grid { display: grid; gap: 1rem; grid-template-columns: 1.7fr 1fr; }
+.movement-preview, .movement-notes { background: var(--panel); border: 1px solid var(--line); border-radius: .75rem; padding: 1.2rem; min-width: 0; }
+.movement-preview h3, .movement-notes h3 { margin-bottom: .3rem; }
+.movement-notes p { color: var(--muted); margin-bottom: .4rem; }
+.movement-notes article + article { margin-top: 1rem; padding-top: 1rem; border-top: 1px solid var(--line); }
+canvas { display: block; width: 100%; height: auto; background: #091b16; border-radius: .45rem; }
+.movement-controls { display: flex; flex-wrap: wrap; gap: .65rem; align-items: center; margin-top: .8rem; }
+.movement-controls label { display: flex; align-items: center; gap: .4rem; }
+.movement-controls input { width: clamp(5rem, 15vw, 12rem); accent-color: var(--accent); }
+#elapsed { min-width: 3.2rem; color: var(--accent); font-variant-numeric: tabular-nums; }
 
 @media (max-width: 46rem) {
   .wrap { width: calc(100% - 2rem); }
   .hero-inner { grid-template-columns: 1fr; }
+  .movement-grid { grid-template-columns: 1fr; }
   nav { gap: .9rem; }
   th, td { padding-inline: .8rem; }
 }

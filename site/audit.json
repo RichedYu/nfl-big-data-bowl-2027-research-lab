@@ -1,14 +1,220 @@
 {
-  "status": "pending",
+  "status": "partial",
   "files": [
-    {"file": "players.csv"},
-    {"file": "combine_results.csv"},
-    {"file": "player_career_successes.csv"},
-    {"file": "games.csv"},
-    {"file": "combine_tracking.csv"},
-    {"file": "player_play.csv"},
-    {"file": "game_tracking_2023.csv"},
-    {"file": "game_tracking_2024.csv"},
-    {"file": "game_tracking_2025.csv"}
+    {
+      "file": "players.csv"
+    },
+    {
+      "file": "combine_results.csv",
+      "rows": 510,
+      "unique_players": 510,
+      "fields": [
+        {
+          "name": "draft_year",
+          "missing_pct": 0.0
+        },
+        {
+          "name": "nfl_id",
+          "missing_pct": 0.0
+        },
+        {
+          "name": "combine_position",
+          "missing_pct": 0.0
+        },
+        {
+          "name": "combine_height",
+          "missing_pct": 0.0
+        },
+        {
+          "name": "combine_weight",
+          "missing_pct": 0.0
+        },
+        {
+          "name": "hand_size",
+          "missing_pct": 0.0
+        },
+        {
+          "name": "arm_length",
+          "missing_pct": 0.0
+        },
+        {
+          "name": "wing_span",
+          "missing_pct": 0.0
+        },
+        {
+          "name": "ten_yd_split",
+          "missing_pct": 16.6667
+        },
+        {
+          "name": "forty",
+          "missing_pct": 16.8627
+        },
+        {
+          "name": "vertical",
+          "missing_pct": 14.1176
+        },
+        {
+          "name": "broad_jump",
+          "missing_pct": 17.0588
+        },
+        {
+          "name": "three_cone",
+          "missing_pct": 64.7059
+        },
+        {
+          "name": "short_shuttle",
+          "missing_pct": 60.5882
+        },
+        {
+          "name": "bench_reps",
+          "missing_pct": 62.3529
+        },
+        {
+          "name": "ngs_athleticism_score",
+          "missing_pct": 0.0
+        },
+        {
+          "name": "ngs_college_production_score",
+          "missing_pct": 0.1961
+        },
+        {
+          "name": "ngs_final_score",
+          "missing_pct": 0.1961
+        }
+      ]
+    },
+    {
+      "file": "player_career_successes.csv"
+    },
+    {
+      "file": "games.csv"
+    },
+    {
+      "file": "combine_tracking.csv",
+      "rows": 463189,
+      "unique_players": 510,
+      "fields": [
+        {
+          "name": "draft_year",
+          "missing_pct": 0.0
+        },
+        {
+          "name": "event_id",
+          "missing_pct": 0.0
+        },
+        {
+          "name": "nfl_id",
+          "missing_pct": 0.0
+        },
+        {
+          "name": "entity_type",
+          "missing_pct": 0.0
+        },
+        {
+          "name": "time",
+          "missing_pct": 0.0
+        },
+        {
+          "name": "drill_type",
+          "missing_pct": 0.0
+        },
+        {
+          "name": "drill_name",
+          "missing_pct": 0.0
+        },
+        {
+          "name": "attempt",
+          "missing_pct": 0.0
+        },
+        {
+          "name": "x",
+          "missing_pct": 0.0
+        },
+        {
+          "name": "y",
+          "missing_pct": 0.0
+        },
+        {
+          "name": "s",
+          "missing_pct": 0.0
+        },
+        {
+          "name": "a",
+          "missing_pct": 0.0
+        },
+        {
+          "name": "dis",
+          "missing_pct": 0.0
+        },
+        {
+          "name": "dir",
+          "missing_pct": 0.0
+        }
+      ]
+    },
+    {
+      "file": "player_play.csv"
+    },
+    {
+      "file": "game_tracking_2023.csv",
+      "rows": 3665443,
+      "unique_players": 156,
+      "fields": [
+        {
+          "name": "game_id",
+          "missing_pct": 0.0
+        },
+        {
+          "name": "play_id",
+          "missing_pct": 0.0
+        },
+        {
+          "name": "nfl_id",
+          "missing_pct": 0.0
+        },
+        {
+          "name": "time",
+          "missing_pct": 0.0
+        },
+        {
+          "name": "x",
+          "missing_pct": 0.0
+        },
+        {
+          "name": "y",
+          "missing_pct": 0.0
+        },
+        {
+          "name": "s",
+          "missing_pct": 0.0
+        },
+        {
+          "name": "a",
+          "missing_pct": 0.0
+        },
+        {
+          "name": "dis",
+          "missing_pct": 0.0
+        },
+        {
+          "name": "o",
+          "missing_pct": 0.0
+        },
+        {
+          "name": "dir",
+          "missing_pct": 0.0
+        },
+        {
+          "name": "event",
+          "missing_pct": 93.3602
+        }
+      ]
+    },
+    {
+      "file": "game_tracking_2024.csv"
+    },
+    {
+      "file": "game_tracking_2025.csv"
+    }
   ]
 }
