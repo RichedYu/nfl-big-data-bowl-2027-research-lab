@@ -1,4 +1,13 @@
-# Experiment status — G3A
+# Experiment status — G3A-R1
+
+**Current phase:** 2023 measurement and reference audit complete; independent review pending.
+
+- The analytical stationary-distance bias agrees with the historical synthetic controls. G3A's recorded failures remain in force.
+- One coarse geometry construct passed its conditional simulation and 2023 sensitivity gates. The speed strategy failed the boundary sensitivity check. Neither is approved for outcome modeling.
+- Human labels, independent calibration and validated movement stages are pending. M2 remains stopped. The 2024 and 2025 draft-cohort outcomes remain sealed.
+- Public review is limited to approved methods, code, tests and de-identified status.
+
+# Historical milestone — G3A
 
 **Current phase:** 2023 development evidence complete and awaiting scientific review.
 
