@@ -1,4 +1,13 @@
-# Experiment status — G3A-R1
+# Experiment status — G3C
+
+**Current phase:** 2023 development evidence complete; scientific review pending.
+
+- One registered observed geometry construct was eligible for the limited development comparison. Both primary point losses worsened when adding it; weighted refit uncertainty leaves incremental prediction inconclusive.
+- Retrospective variation was analyzed separately from pre-draft predictions, preserving player and game dependence.
+- Historical G3A-R1 decisions remain intact. Calibration, independent blind review, local measurement and mechanism K are pending.
+- Later draft cohorts remain sealed. Public review contains methods, code, tests and de-identified status.
+
+# Historical milestone — G3A-R1
 
 **Current phase:** 2023 measurement and reference audit complete; independent review pending.
 
