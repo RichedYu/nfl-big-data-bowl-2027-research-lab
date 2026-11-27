@@ -34,3 +34,9 @@ Scientific review is pending for phase landmarks, feature reliability and the fi
 The private Cloud evidence package is ready for scientific review. It includes a blinded path annotation packet, an independent synthetic risk and coverage assessment, reliability simulations, causal counterexamples and a restricted pilot with the 2023 cohort. Raw observations, identifiers, figures, detailed scores and checkpoints are retained in the authorized Cloud task. The 2024 and 2025 draft-cohort outcomes remain sealed.
 
 Human decisions are pending on path annotation, comparable football route definitions and opportunity eligibility. The development pilot provides insufficient evidence to promote the tracking feature. The local feature model remains pending independent review.
+
+## G2.4 scientific design freeze candidate
+
+A versioned private charter, decision register, blinded annotation materials, representation and outcome registries, and validation precision plan are ready for principal-investigator review. G2.3's lack of clear incremental evidence from the Curl speed feature is retained. G2.4 reuses historical fits and keeps later cohort outcomes sealed.
+
+Independent annotations, approval of measurement risk and coverage, final endpoint and fallback definitions, minimum practically important differences, and authorization to start G3 remain pending.
