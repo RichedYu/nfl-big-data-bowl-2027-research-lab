@@ -1,4 +1,14 @@
-# Experiment status — G3C
+# Experiment status — G3D
+
+**Current phase** — 2023 football task, retrospective context and observed transfer evidence ready for scientific review.
+
+- The contextual references retain distinct pre-snap and realized definitions. Limited common support prevents a standardized player ranking.
+- The opportunity and receiving-value bridge use published route denominators. Play EPA remains a play-level outcome.
+- The frozen internal Combine contrast passed its recorded-data checks. Incremental early-route transfer remains inconclusive on the observed development sample. Physical M2 remains stopped.
+- DL work was confined to field and task feasibility. Independent labels and 2024/2025 draft-cohort validation remain pending.
+- Public review contains research methods and de-identified status. Competition-specific implementation, tests, and detailed evidence are retained in the private Cloud task. The full local research check passed 38 tests.
+
+# Historical milestone — G3C
 
 **Current phase:** 2023 development evidence complete; scientific review pending.
 
