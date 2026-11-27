@@ -28,3 +28,9 @@ Full raw data, SHA-256 values, field-level missingness, and detailed join result
 The private Cloud evidence package is ready for scientific review. The run reused G1 and G2.1 and evaluated synthetic truth, development-only movement segmentation, repeatability, a finite-state information laboratory, and outcome-field availability. The 2023 draft cohort supplied the real motion trials. Availability checks for later cohorts used structural criteria and field eligibility counts.
 
 Scientific review is pending for phase landmarks, feature reliability and the fixed outcome horizon. The stacked G2.2 change contains only methods, tests, code and this status update.
+
+## G2.3 measurement, causal design and statistical feasibility
+
+The private Cloud evidence package is ready for scientific review. It includes a blinded path annotation packet, an independent synthetic risk and coverage assessment, reliability simulations, causal counterexamples and a restricted pilot with the 2023 cohort. Raw observations, identifiers, figures, detailed scores and checkpoints are retained in the authorized Cloud task. The 2024 and 2025 draft-cohort outcomes remain sealed.
+
+Human decisions are pending on path annotation, comparable football route definitions and opportunity eligibility. The development pilot provides insufficient evidence to promote the tracking feature. The local feature model remains pending independent review.
