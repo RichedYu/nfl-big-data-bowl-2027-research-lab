@@ -1,4 +1,14 @@
-# Experiment Status — G1 Cloud Data Audit
+# Experiment status — G3A
+
+**Current phase:** 2023 development evidence complete and awaiting scientific review.
+
+- The frozen movement screen rejected both global candidates after stationary and low-speed controls, so no M2 movement feature entered outcome modeling.
+- Full and common-player development comparisons retained the roster and traditional fallbacks. Technical availability showed no clear incremental improvement.
+- Private evidence includes paired out-of-fold predictions and losses, player refit uncertainty, measurement diagnostics, protocol and checkpoints.
+- Blinded human labels, local measurement, mechanism K and any decision on later-cohort validation are pending. The 2024 and 2025 draft-cohort outcomes remain sealed.
+- G2.3's original null finding remains on record. Public review is limited to code, methods, tests and this de-identified status.
+
+# Historical milestone — G1 Cloud Data Audit
 
 **Phase:** G1 data preparation and audit complete in the selected private Codex Cloud task. Scientific review and publication remain pending. No model has been fitted.
 
